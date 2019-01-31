@@ -173,6 +173,35 @@ from store;
 
 
 -- 7g. Write a query to display for each store its store ID, city, and country.
+select * from store;
+select * from address;
+select * from city;
+select * from country;
+
+select store_id,  
+(Select city from city where city_id =  (Select city_id from address where address.address_id = store.address_id) ), 
+( Select country from country where country_id=   (Select country_id from city where city_id =  (Select city_id from address where address.address_id = store.address_id) )  )
+from store;
+
+-- 7h. List the top five genres in gross revenue in descending order. 
+-- (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
+
+
+
+-- 8a. In your new role as an executive, you would like to have an easy way of viewing the Top five genres by gross revenue. 
+-- Use the solution from the problem above to create a view. If you haven't solved 7h, you can substitute another query to create a view.
+
+create view store_info as
+	select store_id,  
+	(Select city from city where city_id =  (Select city_id from address where address.address_id = store.address_id) ), 
+	( Select country from country where country_id=   (Select country_id from city where city_id =  (Select city_id from address where address.address_id = store.address_id) )  )
+	from store;
+	
+-- 8b. How would you display the view that you created in 8a?
+select * from store_info;
+
+-- 8c. You find that you no longer need the view top_five_genres. Write a query to delete it.
+drop view store_info;
 
 
 
